@@ -1,4 +1,5 @@
 """Module using for more readabilty"""
+from asyncio import Queue, QueueEmpty
 from typing import Iterable
 
 
@@ -40,3 +41,31 @@ class ConsumableIterator(BaseIterator):
     def append(self, item):
         """Append item to the end of the list"""
         self.items.append(item)
+
+
+class ConsumableQueueIterator(ConsumableIterator):
+    """
+    ConsumableQueueIterator is a generator that can be consumed iterated items
+    """
+
+    def __init__(self, exits_if_empty: bool = True):
+        super().__init__(items=[], exits_if_empty=exits_if_empty)
+        self.items = Queue()
+
+    def __iter__(self):
+        _item = None  # Item to return
+        while True:
+            try:
+                _item = self.items.get_nowait()
+            except QueueEmpty:
+                _item = None
+                if self.exits_if_empty:
+                    break
+            yield _item
+
+    def __len__(self):
+        return self.items.qsize()
+
+    def append(self, item):
+        """Append item to the end of the list"""
+        self.items.put_nowait(item)
