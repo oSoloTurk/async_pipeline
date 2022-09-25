@@ -1,19 +1,21 @@
 from async_pipeline.iterator import ConsumableIterator, BaseIterator
 from tests.utils.exception_tests import try_exception
 
+
 def test_consumable_iterator():
     """Consumable iterator test suite"""
-    items = ['a', 'b', 'c', 'd', 'e']
+    items = ["a", "b", "c", "d", "e"]
     iterator = ConsumableIterator(items, exits_if_empty=True)
     for item in iterator:
         assert item in items
     assert len(items) != len(iterator)
-    iterator.append('f')
+    iterator.append("f")
     assert len(iterator) == 1
+
 
 def test_consumable_iterator_infinity():
     """Consumable iterator test suite"""
-    items = ['a', 'b', 'c', 'd', 'e']
+    items = ["a", "b", "c", "d", "e"]
     iterator = ConsumableIterator(items, exits_if_empty=False)
     items.append(None)
     for item in iterator:
@@ -24,6 +26,7 @@ def test_consumable_iterator_infinity():
     assert len(items) == len(iterator)
     iterator.append(6)
     assert len(iterator) == 1
+
 
 def test_consumable_iterator_source():
     """Consumable iterator test suite"""

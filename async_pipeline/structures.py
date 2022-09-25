@@ -3,10 +3,11 @@ from typing import Callable, Optional, Any
 
 class BasePipelineItem:
     """
-        This class is the base class for all pipeline items.
-        It defines the interface for all pipeline items.
+    This class is the base class for all pipeline items.
+    It defines the interface for all pipeline items.
     """
-    def __init__(self, item:Optional[Any], callback=Optional[Callable]):
+
+    def __init__(self, item: Optional[Any], callback=Optional[Callable]):
         pass
 
     def __call__(self, *args: Any, **kwds: Any) -> Any:
@@ -14,15 +15,17 @@ class BasePipelineItem:
 
     def done(self, *args: Any, **kwds: Any) -> Any:
         """
-            This method is called when the pipeline item is done.
+        This method is called when the pipeline item is done.
         """
         raise NotImplementedError
 
+
 class PipelineItem(BasePipelineItem):
     """
-        PipelineItem is a pipeline item that can be processed by a worker.
+    PipelineItem is a pipeline item that can be processed by a worker.
     """
-    def __init__(self, item:Optional[Any], callback:Optional[Callable] = None):
+
+    def __init__(self, item: Optional[Any], callback: Optional[Callable] = None):
         super().__init__(item, callback)
 
         self.item = item

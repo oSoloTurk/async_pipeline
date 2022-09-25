@@ -4,6 +4,7 @@ from typing import Iterable
 
 class BaseIterator(Iterable):
     """Base class for iterators"""
+
     def __iter__(self):
         raise NotImplementedError
 
@@ -14,14 +15,15 @@ class BaseIterator(Iterable):
 
 class ConsumableIterator(BaseIterator):
     """
-        ConsumableIterator is a generator that can be consumed iterated items
+    ConsumableIterator is a generator that can be consumed iterated items
     """
+
     def __init__(self, items: list, exits_if_empty: bool = True):
-        self.items = list(items) # Take clone of the list
+        self.items = list(items)  # Take clone of the list
         self.exits_if_empty = exits_if_empty
 
     def __iter__(self):
-        _item = None # Item to return
+        _item = None  # Item to return
         while True:
             try:
                 _item = self.items.pop()

@@ -1,4 +1,3 @@
-    
 def try_exception(excepted_exception, func, *args, **kwargs):
     """Try exception"""
     try:
