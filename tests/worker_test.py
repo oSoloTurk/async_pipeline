@@ -1,3 +1,4 @@
+from async_pipeline.structures import PipelineItem
 from async_pipeline.worker import BaseWorker, ThreadWorker
 from tests.utils.exception_tests import try_exception
 
@@ -12,16 +13,11 @@ def test_base_worker():
 
 def test_thread_worker():
     """Thread worker test suite"""
-    class TestPipelineItem:
-        def __init__(self, item):
-            self.item = item
-            self.callback = (lambda x: x)
-
     thread_worker = ThreadWorker()
     try_exception(NotImplementedError, thread_worker.process, None, None)
     assert thread_worker.status == 'idle'
 
-    item = TestPipelineItem('test')
+    item = PipelineItem('test')
     thread_worker.iterator.append(item)
 
     def process(pipeline_item, item):
