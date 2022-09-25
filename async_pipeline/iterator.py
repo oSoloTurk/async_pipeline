@@ -21,6 +21,7 @@ class ConsumableIterator(BaseIterator):
         self.exits_if_empty = exits_if_empty
 
     def __iter__(self):
+        _item = None # Item to return
         while True:
             try:
                 _item = self.items.pop()
