@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+coverage = "*"
+
+[dev-packages]
+pytest = "*"
+coverage = "*"
+flake8 = "*"
+black = "*"
+isort = "*"
+pytest-cov = "*"
+codecov = "*"
+mypy = "*"
+gitchangelog = "*"
+mkdocs = "*"
+
+[requires]
+python_version = "3.10"
