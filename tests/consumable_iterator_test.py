@@ -1,4 +1,5 @@
 from async_pipeline.iterator import ConsumableIterator, BaseIterator
+from tests.utils.exception_tests import try_exception
 
 def test_consumable_iterator():
     """Consumable iterator test suite"""
@@ -26,15 +27,6 @@ def test_consumable_iterator_infinity():
 
 def test_consumable_iterator_source():
     """Consumable iterator test suite"""
-    
-    def try_exception(excepted_exception, func, *args, **kwargs):
-        """Try exception"""
-        try:
-            func(*args, **kwargs)
-        except excepted_exception:
-            pass
-        else:
-            raise AssertionError
 
     not_implemented_iterator = BaseIterator()
     try_exception(NotImplementedError, not_implemented_iterator.__iter__)
