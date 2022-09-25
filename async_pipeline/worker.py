@@ -68,7 +68,7 @@ class ThreadWorker(BaseWorker):
             if pipeline_item is None:
                 continue
             response : Optional[Any] = self.process(pipeline_item, pipeline_item.item)
-            pipeline_item.callback(response)
+            pipeline_item.done(response)
 
     def pause(self):
         """
