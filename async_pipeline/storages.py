@@ -18,6 +18,7 @@ class BaseBucket:
     def __len__(self) -> int:
         raise NotImplementedError
 
+
 class Bucket(BaseBucket):
     """
     Bucket is a bucket that can be processed by a worker.
@@ -30,7 +31,7 @@ class Bucket(BaseBucket):
 
     def __getattr__(self, *args: Any, **kwds: Any) -> Any:
         return getattr(self.items, *args, **kwds)
-    
+
     def __len__(self) -> int:
         return len(self.items)
 
@@ -94,7 +95,10 @@ class MultipleBucketStorage(BaseStorage):
         return self.buckets[bucket_name]
 
     def put(
-        self, bucket_name: str = "default", bucket: Optional[BaseBucket] = None, **kwds: Any
+        self,
+        bucket_name: str = "default",
+        bucket: Optional[BaseBucket] = None,
+        **kwds: Any
     ) -> Bucket:
         """
         Put item to the storage
@@ -110,7 +114,7 @@ class MultipleBucketStorage(BaseStorage):
         bucket.append(item)
 
     def __getitem__(self, item) -> Any:
-        return  self.get(item)
+        return self.get(item)
 
     def __iter__(self):
         return iter(self.buckets)
