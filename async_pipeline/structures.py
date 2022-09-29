@@ -1,5 +1,5 @@
 from asyncio import Queue
-from typing import Callable, Optional, Any
+from typing import Any, Callable, Optional
 
 
 class BasePipelineItem:
@@ -26,7 +26,9 @@ class PipelineItem(BasePipelineItem):
     PipelineItem is a pipeline item that can be processed by a worker.
     """
 
-    def __init__(self, item: Optional[Any], callback: Optional[Callable] = None):
+    def __init__(
+        self, item: Optional[Any], callback: Optional[Callable] = None
+    ):
         super().__init__(item, callback)
 
         self.item = item

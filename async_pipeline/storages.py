@@ -108,7 +108,10 @@ class MultipleBucketStorage(BaseStorage):
         return self.buckets[bucket_name]
 
     def append(
-        self, bucket_name: str = "default", item: Optional[Any] = None, **kwds: Any
+        self,
+        bucket_name: str = "default",
+        item: Optional[Any] = None,
+        **kwds: Any
     ) -> Any:
         bucket = self.get(bucket_name)
         bucket.append(item)
