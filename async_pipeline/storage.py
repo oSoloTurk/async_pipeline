@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any, Iterable, Optional
 
 from async_pipeline.iterator import ConsumableQueueIterator
 
@@ -11,6 +11,9 @@ class BaseBucket:
 
     def __init__(self, bucket_name: str):
         pass
+
+    def __iter__(self) -> Iterable:
+        raise NotImplementedError
 
     def __getattr__(self, *args: Any, **kwds: Any) -> Any:
         raise NotImplementedError
@@ -27,7 +30,30 @@ class Bucket(BaseBucket):
     def __init__(self, bucket_name: str):
         super().__init__(bucket_name)
         self.bucket_name = bucket_name
+        self.items = []
+
+    def __iter__(self):
+        return self.items.__iter__()
+
+    def __getattr__(self, *args: Any, **kwds: Any) -> Any:
+        return getattr(self.items, *args, **kwds)
+
+    def __len__(self) -> int:
+        return len(self.items)
+
+
+class ConsumableBucket(BaseBucket):
+    """
+    ConsumableBucket is a bucket that can be processed by a worker.
+    """
+
+    def __init__(self, bucket_name: str):
+        super().__init__(bucket_name)
+        self.bucket_name = bucket_name
         self.items = ConsumableQueueIterator()
+
+    def __iter__(self):
+        return self.items.__iter__()
 
     def __getattr__(self, *args: Any, **kwds: Any) -> Any:
         return getattr(self.items, *args, **kwds)
@@ -108,10 +134,7 @@ class MultipleBucketStorage(BaseStorage):
         return self.buckets[bucket_name]
 
     def append(
-        self,
-        bucket_name: str = "default",
-        item: Optional[Any] = None,
-        **kwds: Any
+        self, bucket_name: str = "default", item: Optional[Any] = None, **kwds: Any
     ) -> Any:
         bucket = self.get(bucket_name)
         bucket.append(item)
