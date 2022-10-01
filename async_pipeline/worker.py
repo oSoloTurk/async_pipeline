@@ -1,8 +1,9 @@
 from abc import abstractmethod
 from threading import Thread
-from typing import Any, Optional
+from typing import Any, Optional, Union
 
-from async_pipeline.iterator import ConsumableIterator
+from async_pipeline.iterator import BaseIterator
+from async_pipeline.storage import BaseBucket, ConsumableBucket
 
 
 class BaseWorker:
@@ -49,11 +50,20 @@ class ThreadWorker(BaseWorker):
     ThreadWorker is a worker that runs in a thread.
     """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.iterator: ConsumableIterator = ConsumableIterator(
-            items=kwargs.get("items", []), exits_if_empty=False
-        )
+    def __init__(
+        self,
+        iterator: Optional[Union[BaseBucket, BaseIterator]] = None,
+        bucket_name=Optional[str],
+        **kwargs
+    ):
+        super().__init__(**kwargs)
+
+        if not bucket_name:
+            bucket_name = self.__class__.__name__ + "_bucket"
+
+        if not iterator:
+            self.iterator: BaseBucket = ConsumableBucket(bucket_name)
+
         self._thread: Optional[Thread] = None
 
     @abstractmethod
@@ -70,9 +80,7 @@ class ThreadWorker(BaseWorker):
                 break
             if pipeline_item is None:
                 continue
-            response: Optional[Any] = self.process(
-                pipeline_item, pipeline_item.item
-            )
+            response: Optional[Any] = self.process(pipeline_item, pipeline_item.item)
             pipeline_item.done(response)
 
     def pause(self):
