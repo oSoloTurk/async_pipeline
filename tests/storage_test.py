@@ -1,4 +1,4 @@
-from async_pipeline.storages import (
+from async_pipeline.storage import (
     BaseStorage,
     MultipleBucketStorage,
     BaseBucket,
