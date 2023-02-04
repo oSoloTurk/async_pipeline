@@ -24,19 +24,19 @@ install:          ## Install the project in dev mode.
 	$(ENV_PREFIX)pip install -e .[test]
 
 fmt:              ## Format code using black & isort.
-	$(ENV_PREFIX)python -m isort async_pipeline/
-	$(ENV_PREFIX)python -m black -l 88 async_pipeline/
-	$(ENV_PREFIX)python -m black -l 88 tests/
+	$(ENV_PREFIX)isort async_pipeline/
+	$(ENV_PREFIX)black -l 88 async_pipeline/
+	$(ENV_PREFIX)black -l 88 tests/
 
 lint: info            ## Run pep8, black, mypy linters.
-	$(ENV_PREFIX)python -m flake8 async_pipeline/
-	$(ENV_PREFIX)python -m black -l 88 --check async_pipeline/
-	$(ENV_PREFIX)python -m black -l 88 --check tests/
+	$(ENV_PREFIX)flake8 async_pipeline/
+	$(ENV_PREFIX)black -l 88 --check async_pipeline/
+	$(ENV_PREFIX)black -l 88 --check tests/
 	
 test: lint        ## Run tests and generate coverage report.
-	$(ENV_PREFIX)python -m pytest -v --cov-config .coveragerc --cov=async_pipeline -l --tb=short --maxfail=1 tests/
-	$(ENV_PREFIX)python -m coverage xml
-	$(ENV_PREFIX)python -m coverage html
+	$(ENV_PREFIX)pytest -v --cov-config .coveragerc --cov=async_pipeline -l --tb=short --maxfail=1 tests/
+	$(ENV_PREFIX)coverage xml
+	$(ENV_PREFIX)coverage html
 
 watch:            ## Run tests on every change.
 	ls **/**.py | entr $(ENV_PREFIX)pytest -s -vvv -l --tb=long --maxfail=1 tests/
