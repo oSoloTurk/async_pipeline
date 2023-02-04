@@ -5,43 +5,43 @@ info:
 	@echo "Current environment:"
 	@echo "Running using $(ENV_PREFIX)"
 	
-help:             ## Show the help.
+help:
 	@echo "Usage: make <target>"
 	@echo ""
 	@echo "Targets:"
 	@fgrep "##" Makefile | fgrep -v fgrep
 
-show:             ## Show the current environment.
+show:
 	@echo "Current environment:"
 	@echo "Running using $(ENV_PREFIX)"
 	@$(ENV_PREFIX)python -V
 	@$(ENV_PREFIX)python -m site
 
-install:          ## Install the project in dev mode.
+install:
 	$(ENV_PREFIX)pip install pipenv
 	PIPENV_VENV_IN_PROJECT=1 $(ENV_PREFIX)pipenv install --deploy
 	PIPENV_VENV_IN_PROJECT=1 $(ENV_PREFIX)pipenv install --dev --deploy 
 	$(ENV_PREFIX)pip install -e .[test]
 
-fmt:              ## Format code using black & isort.
+fmt:
 	$(ENV_PREFIX)isort async_pipeline/
 	$(ENV_PREFIX)black -l 88 async_pipeline/
 	$(ENV_PREFIX)black -l 88 tests/
 
-lint: info            ## Run pep8, black, mypy linters.
+lint: info
 	$(ENV_PREFIX)flake8 async_pipeline/
 	$(ENV_PREFIX)black -l 88 --check async_pipeline/
 	$(ENV_PREFIX)black -l 88 --check tests/
 	
-test:        ## Run tests and generate coverage report.
+test:
 	$(ENV_PREFIX)pytest -v --cov-config .coveragerc --cov=async_pipeline -l --tb=short --maxfail=1 tests/
 	$(ENV_PREFIX)coverage xml
 	$(ENV_PREFIX)coverage html
 
-watch:            ## Run tests on every change.
+watch:
 	ls **/**.py | entr $(ENV_PREFIX)pytest -s -vvv -l --tb=long --maxfail=1 tests/
 
-clean:            ## Clean unused files.
+clean:
 	@find ./ -name '*.pyc' -exec rm -f {} \;
 	@find ./ -name '__pycache__' -exec rm -rf {} \;
 	@find ./ -name 'Thumbs.db' -exec rm -f {} \;
@@ -56,7 +56,7 @@ clean:            ## Clean unused files.
 	@rm -rf .tox/
 	@rm -rf docs/_build
 
-virtualenv:       ## Create a virtual environment.
+virtualenv:
 	@if [ "$(USING_POETRY)" ]; then poetry install && exit; fi
 	@echo "creating virtualenv ..."
 	@rm -rf .venv
@@ -66,7 +66,7 @@ virtualenv:       ## Create a virtual environment.
 	@echo
 	@echo "!!! Please run 'source .venv/bin/activate' to enable the environment !!!"
 
-release:          ## Create a new tag for release.
+release:
 	@echo "WARNING: This operation will create s version tag and push to github"
 	@read -p "Version? (provide the next x.y.z semver) : " TAG
 	@echo "$${TAG}" > async_pipeline/VERSION
@@ -78,12 +78,12 @@ release:          ## Create a new tag for release.
 	@git push -u origin HEAD --tags
 	@echo "Github Actions will detect the new tag and release the new version."
 
-docs:             ## Build the documentation.
+docs:
 	@echo "building documentation ..."
 	@$(ENV_PREFIX)mkdocs build
 	URL="site/index.html"; xdg-open $$URL || sensible-browser $$URL || x-www-browser $$URL || gnome-open $$URL
 
-switch-to-poetry: ## Switch to poetry package manager.
+switch-to-poetry:
 	@echo "Switching to poetry ..."
 	@if ! poetry --version > /dev/null; then echo 'poetry is required, install from https://python-poetry.org/'; exit 1; fi
 	@rm -rf .venv
