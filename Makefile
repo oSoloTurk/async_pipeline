@@ -18,10 +18,10 @@ show:             ## Show the current environment.
 	@$(ENV_PREFIX)python -m site
 
 install:          ## Install the project in dev mode.
-	$(ENV_PREFIX)python -m pip install pipenv
-	$(ENV_PREFIX)python -m pipenv install
-	$(ENV_PREFIX)python -m pipenv install --dev
-	$(ENV_PREFIX)python -m pip install -e .[test]
+	$(ENV_PREFIX)pip install pipenv
+	$(ENV_PREFIX)pipenv install
+	$(ENV_PREFIX)pipenv install --dev
+	$(ENV_PREFIX)pip install -e .[test]
 
 fmt:              ## Format code using black & isort.
 	$(ENV_PREFIX)python -m isort async_pipeline/
