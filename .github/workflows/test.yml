@@ -1,0 +1,20 @@
+name: Test
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Build and Test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Environment
+        run: |
+          make install
+      - name: Test
+        run: |
+          make test
+      - name: Codecov
+        uses: codecov/codecov-action@v3.1.1
