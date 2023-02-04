@@ -33,7 +33,7 @@ lint: info            ## Run pep8, black, mypy linters.
 	$(ENV_PREFIX)black -l 88 --check async_pipeline/
 	$(ENV_PREFIX)black -l 88 --check tests/
 	
-test: lint        ## Run tests and generate coverage report.
+test:        ## Run tests and generate coverage report.
 	$(ENV_PREFIX)pytest -v --cov-config .coveragerc --cov=async_pipeline -l --tb=short --maxfail=1 tests/
 	$(ENV_PREFIX)coverage xml
 	$(ENV_PREFIX)coverage html
