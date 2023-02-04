@@ -51,5 +51,8 @@ def test_integrated_pipeline():
     async_time = time.time() - async_time
 
     assert (
-        async_time > sync_time
-    ), f"Async time {async_time} is not greater than sync time {sync_time}\n, estimated speedup: %{sync_time * 100 / async_time } (expected: > 1)"
+        async_time < sync_time
+    ), (
+        f"Async time {async_time} is not greater than sync time {sync_time}\n,"
+        f"estimated speedup: %{sync_time * 100 / async_time } (expected: > 1)"
+    )

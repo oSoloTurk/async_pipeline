@@ -80,7 +80,9 @@ class ThreadWorker(BaseWorker):
                 break
             if pipeline_item is None:
                 continue
-            response: Optional[Any] = self.process(pipeline_item, pipeline_item.item)
+            response: Optional[Any] = self.process(
+                pipeline_item, pipeline_item.item
+            )
             pipeline_item.done(response)
 
     def pause(self):

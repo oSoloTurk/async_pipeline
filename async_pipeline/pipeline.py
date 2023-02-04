@@ -1,12 +1,14 @@
 from dataclasses import dataclass
-from typing import List, Union, Optional, Callable, Dict, Any
-from async_pipeline.worker import BaseWorker
+from typing import Any, Callable, Dict, List, Optional, Union
+
 from async_pipeline import storage as astorage
+from async_pipeline.worker import BaseWorker
 
 
 class PipelineStage:
     """
-    A pipeline stage is a function that takes a single argument and returns a single value.
+    A pipeline stage is a function that takes a single argument and
+    returns a single value.
     """
 
     action: Callable
@@ -75,6 +77,7 @@ def build_pipeline(
     if not name:
         name = "default-pipeline"
     _stages = [
-        PipelineStage(**stage) if isinstance(stage, dict) else stage for stage in stages
+        PipelineStage(**stage) if isinstance(stage, dict) else stage
+        for stage in stages
     ]
     return Pipeline(stages=_stages, name=name, storage=storage)

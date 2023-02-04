@@ -1,4 +1,3 @@
-from asyncio.windows_utils import pipe
 from async_pipeline.structures import BasePipelineItem, PipelineItem
 from async_pipeline.worker import ThreadWorker
 from tests.utils.exception_tests import try_exception
