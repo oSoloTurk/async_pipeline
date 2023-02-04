@@ -19,8 +19,8 @@ show:             ## Show the current environment.
 
 install:          ## Install the project in dev mode.
 	$(ENV_PREFIX)pip install pipenv
-	$(ENV_PREFIX)pipenv install
-	$(ENV_PREFIX)pipenv install --dev
+	PIPENV_VENV_IN_PROJECT=1 $(ENV_PREFIX)pipenv install --deploy
+	PIPENV_VENV_IN_PROJECT=1 $(ENV_PREFIX)pipenv install --dev --deploy 
 	$(ENV_PREFIX)pip install -e .[test]
 
 fmt:              ## Format code using black & isort.
